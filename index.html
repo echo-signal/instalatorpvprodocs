@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InstalatorPV Pro — Przewodnik</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #1a1a1a;
+      --text: #e0e0e0;
+      --muted: #555;
+      --accent: #00ff88;
+      --accent-dim: #00ff8822;
+      --teal: #4DB6AC;
+      --teal-dim: #4DB6AC22;
+      --amber: #FFD54F;
+      --amber-dim: #FFD54F22;
+      --red: #EF5350;
+      --red-dim: #EF535022;
+    }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 720px;
+      width: 100%;
+    }
+    .prompt {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .prompt span {
+      color: var(--accent);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+    .logo .dot {
+      color: var(--accent);
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.1em;
+      background: var(--accent);
+      margin-left: 4px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+    .section-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .description {
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 300;
+      margin-bottom: 2rem;
+      opacity: 0.85;
+    }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .nav a {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .nav a:hover {
+      color: var(--accent);
+      border-color: #2a2a2a;
+      background: var(--accent-dim);
+    }
+
+    /* Feature cards */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .feature-card {
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      user-select: none;
+    }
+    .feature-card:hover {
+      border-color: #2a2a2a;
+      background: #141414;
+    }
+    .feature-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .feature-title {
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .feature-icon {
+      font-size: 1rem;
+      width: 1.5rem;
+      text-align: center;
+    }
+    .feature-tag {
+      font-size: 0.55rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .tag-core {
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .tag-calc {
+      color: var(--teal);
+      background: var(--teal-dim);
+    }
+    .tag-pro {
+      color: var(--amber);
+      background: var(--amber-dim);
+    }
+    .feature-toggle {
+      color: var(--muted);
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+    }
+    .feature-card.open .feature-toggle {
+      transform: rotate(90deg);
+    }
+    .feature-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, margin-top 0.3s ease;
+      margin-top: 0;
+    }
+    .feature-card.open .feature-body {
+      max-height: 2000px;
+      margin-top: 0.75rem;
+    }
+    .feature-body-inner {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+    }
+    .feature-body-inner strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .feature-body-inner ul {
+      list-style: none;
+      margin: 0.5rem 0;
+      padding: 0;
+    }
+    .feature-body-inner ul li {
+      padding: 0.15rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .feature-body-inner ul li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.65rem;
+    }
+    .step-list {
+      counter-reset: step;
+    }
+    .step-list li {
+      padding-left: 1.5rem !important;
+    }
+    .step-list li::before {
+      content: counter(step) '.' !important;
+      counter-increment: step;
+      font-weight: 500;
+      color: var(--teal) !important;
+      font-size: 0.7rem !important;
+    }
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0;
+      font-size: 0.7rem;
+    }
+    .param-table th {
+      text-align: left;
+      color: var(--accent);
+      font-weight: 500;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .param-table td {
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .param-table td:first-child {
+      color: var(--text);
+      font-weight: 400;
+    }
+    .note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--accent-dim);
+      border-left: 2px solid var(--accent);
+      padding: 0.5rem 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .warn {
+      background: var(--amber-dim);
+      border-left-color: var(--amber);
+    }
+
+    /* Workflow */
+    .workflow {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+    }
+    .workflow-num {
+      min-width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .workflow-text {
+      color: var(--muted);
+      font-weight: 300;
+      padding-top: 0.15rem;
+    }
+    .workflow-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Quick ref */
+    .quick-ref {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .ref-card {
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .ref-card-title {
+      font-size: 0.65rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+    .ref-card-value {
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+    .ref-card-desc {
+      font-size: 0.6rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 0.15rem;
+    }
+
+    /* Links */
+    .links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .links a::before {
+      content: '\2192';
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .links a:hover {
+      color: var(--accent);
+    }
+    .links a:hover::before {
+      opacity: 1;
+    }
+
+    /* Status */
+    .status {
+      margin-top: 3rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-dim);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-text {
+      color: var(--muted);
+    }
+    .status-text span {
+      color: var(--text);
+    }
+
+    footer {
+      margin-top: 4rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px dashed #333;
+      transition: color 0.2s ease;
+    }
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    /* Back to top */
+    .back-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 36px;
+      height: 36px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+    }
+    .back-top.visible {
+      opacity: 1;
+    }
+    .back-top:hover {
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 1.3rem; }
+      .quick-ref { grid-template-columns: 1fr; }
+      .links { flex-direction: column; gap: 1rem; }
+      body { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="prompt"><span>~/</span> instalatorpv-pro <span>$</span> cat user-guide.md</div>
+
+    <h1 class="logo">InstalatorPV<span class="dot">.</span>Pro<span class="cursor"></span></h1>
+    <p class="tagline">profesjonalne narzędzie dla instalatorów fotowoltaiki</p>
+
+    <nav class="nav" id="top">
+      <a href="#start">Pierwsze kroki</a>
+      <a href="#kalkulatory">Kalkulatory</a>
+      <a href="#protokoly">Protokoły</a>
+      <a href="#projekty">Projekty</a>
+      <a href="#ustawienia">Ustawienia</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <hr class="divider">
+
+    <!-- OVERVIEW -->
+    <p class="section-label">// o aplikacji</p>
+    <p class="description">
+      InstalatorPV Pro to kompleksowe narzędzie dla instalatorów fotowoltaiki. Kalkulatory zgodne z normami IEC, generator protokołów wg PN-EN 62446-1, zarządzanie projektami i klientami. Działa offline, synchronizuje dane z chmurą.
+    </p>
+
+    <div class="quick-ref">
+      <div class="ref-card">
+        <div class="ref-card-title">Platforma</div>
+        <div class="ref-card-value">Android</div>
+        <div class="ref-card-desc">Android 11.0+ (API 30)</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-title">Tryb offline</div>
+        <div class="ref-card-value">Pełny</div>
+        <div class="ref-card-desc">Kalkulatory i protokoły bez internetu</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-title">Trial</div>
+        <div class="ref-card-value">7 dni</div>
+        <div class="ref-card-desc">Pełny dostęp bez opłat</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-card-title">Subskrypcja</div>
+        <div class="ref-card-value">9,99 PLN/tydz.</div>
+        <div class="ref-card-desc">Google Play Billing</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- GETTING STARTED -->
+    <p class="section-label" id="start">// pierwsze kroki</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">01</span>
+            Logowanie i rejestracja
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Trzy sposoby logowania:</strong>
+          <ul>
+            <li><strong>Email + hasło</strong> — pełny dostęp z synchronizacją chmurową</li>
+            <li><strong>Konto Google</strong> — szybkie logowanie przez Google SSO</li>
+            <li><strong>Tryb demo</strong> — "Pomiń logowanie" — dane tylko lokalnie, brak synchronizacji</li>
+          </ul>
+          <div class="note">Po zalogowaniu aktywowany jest 7-dniowy bezpłatny okres próbny z pełnym dostępem do wszystkich funkcji.</div>
+          <strong>Bezpieczeństwo biometryczne:</strong>
+          <p>Jeśli urządzenie obsługuje biometrię (odcisk palca, Face ID), przy kolejnym uruchomieniu aplikacja zaproponuje szybkie odblokowanie biometryczne zamiast ponownego logowania.</p>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">02</span>
+            Pulpit (Dashboard)
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Ekran startowy</strong> pokazuje podsumowanie aktywności:
+          <ul>
+            <li><strong>Aktywne projekty</strong> — liczba projektów w toku</li>
+            <li><strong>Protokoły w tym miesiącu</strong> — ile protokołów wygenerowałeś</li>
+            <li><strong>Kalendarz</strong> — dni z zaplanowanymi instalacjami wyróżnione kolorem</li>
+            <li><strong>Szybkie akcje</strong> — przyciski "Nowy projekt" i "Nowy protokół"</li>
+          </ul>
+          <p>Kliknij dzień w kalendarzu, aby zobaczyć zaplanowane wydarzenia.</p>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">03</span>
+            Nawigacja w aplikacji
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Dolna belka nawigacji (5 zakładek):</strong>
+          <table class="param-table">
+            <tr><th>Zakładka</th><th>Funkcja</th></tr>
+            <tr><td>Pulpit</td><td>Dashboard, statystyki, kalendarz</td></tr>
+            <tr><td>Kalkulatory</td><td>PVGIS, elektryczny, zgodność</td></tr>
+            <tr><td>Protokoły</td><td>Nowy protokół, archiwum</td></tr>
+            <tr><td>Projekty</td><td>Zarządzanie klientami i projektami</td></tr>
+            <tr><td>Więcej</td><td>Kalendarz, dokumenty, historia zmian, ustawienia</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- CALCULATORS -->
+    <p class="section-label" id="kalkulatory">// kalkulatory</p>
+
+    <div class="features">
+      <!-- PVGIS -->
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#9788;</span>
+            Kalkulator PVGIS
+            <span class="feature-tag tag-calc">ENERGIA</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Obliczanie uzysku energii na podstawie bazy PVGIS (JRC, Komisja Europejska).</strong>
+          <p style="margin-top:0.5rem"><strong>Parametry wejściowe:</strong></p>
+          <table class="param-table">
+            <tr><th>Parametr</th><th>Zakres</th><th>Opis</th></tr>
+            <tr><td>Lokalizacja</td><td>GPS / adres</td><td>Położenie instalacji</td></tr>
+            <tr><td>Moc szczytowa</td><td>0.1 – 20 kWp</td><td>Moc zainstalowana PV</td></tr>
+            <tr><td>Kąt nachylenia</td><td>0 – 90°</td><td>Nachylenie modułów</td></tr>
+            <tr><td>Azymut</td><td>-180 – 180°</td><td>Konwencja PVGIS: 0° = południe</td></tr>
+            <tr><td>Straty systemowe</td><td>0 – 100%</td><td>Typowo 14%</td></tr>
+            <tr><td>Typ modułów</td><td>c-Si / CIS / CdTe</td><td>Technologia ogniw</td></tr>
+            <tr><td>Cena energii</td><td>PLN/kWh</td><td>Do obliczenia oszczędności</td></tr>
+            <tr><td>Koszt instalacji</td><td>PLN (opcja)</td><td>Do obliczenia PBP</td></tr>
+          </table>
+          <p style="margin-top:0.5rem"><strong>Wyniki:</strong></p>
+          <ul>
+            <li>Roczny uzysk [kWh/rok]</li>
+            <li>Produktywność [kWh/kWp/rok]</li>
+            <li>Roczne oszczędności [PLN]</li>
+            <li>Okres zwrotu [lata]</li>
+            <li>Wykres produkcji miesięcznej</li>
+          </ul>
+          <div class="note">
+            <strong>Typowe uzyski w Polsce:</strong> Warszawa ~1050, Kraków ~1030, Gdańsk ~1000 kWh/kWp/rok.
+          </div>
+          <div class="note warn"><strong>Azymut:</strong> Podaj wartość w konwencji PVGIS: 0° = południe, -90° = wschód, 90° = zachód. Nie jest to konwencja kompasowa.</div>
+          <p style="margin-top:0.5rem">Wyniki można <strong>zapisać do projektu</strong> lub <strong>udostępnić</strong> jako tekst.</p>
+        </div></div>
+      </div>
+
+      <!-- ELECTRICAL -->
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#9889;</span>
+            Kalkulator elektryczny
+            <span class="feature-tag tag-calc">DC/AC</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Dobór kabli, zabezpieczeń i konfiguracja stringów wg IEC 60364-7-712.</strong>
+
+          <p style="margin-top:0.5rem"><strong>Strona DC — konfiguracja stringów:</strong></p>
+          <ul>
+            <li>Liczba modułów w stringu i liczba stringów</li>
+            <li>Voc, współczynnik temperaturowy Voc [%/°C], Isc, Imp modułu</li>
+            <li>Max. napięcie DC falownika [V], max. prąd MPPT [A]</li>
+            <li>Min. temperatura otoczenia [°C]</li>
+          </ul>
+          <p>Sprawdzenie: Voc stringu w najniższej temperaturze vs. max. napięcie falownika.</p>
+
+          <p style="margin-top:0.5rem"><strong>Dobór kabli DC:</strong></p>
+          <ul>
+            <li>Długość kabla (jednokierunkowa) [m]</li>
+            <li>Spadek napięcia &#8804; 1% (norma)</li>
+            <li>Rezystywność miedzi (20°C): &#961; = 0.0175 &#937;&#183;mm&sup2;/m</li>
+          </ul>
+
+          <p style="margin-top:0.5rem"><strong>Strona AC:</strong></p>
+          <ul>
+            <li>Moc AC falownika [W], długość kabla AC [m]</li>
+            <li>Opcja: 3-fazowy (400V)</li>
+            <li>Dobór przekroju kabla AC i spadku napięcia</li>
+          </ul>
+
+          <p style="margin-top:0.5rem"><strong>Rekomendacje zabezpieczeń:</strong></p>
+          <table class="param-table">
+            <tr><th>Strona</th><th>Zabezpieczenie</th></tr>
+            <tr><td>DC</td><td>Bezpiecznik stringowy, rozłącznik DC, SPD DC</td></tr>
+            <tr><td>AC</td><td>MCB (nadprądowy), RCD, SPD AC</td></tr>
+          </table>
+          <div class="note">Wynik: ZGODNY / NIEZGODNY z oznaczeniem wg jakich kryteriów.</div>
+        </div></div>
+      </div>
+
+      <!-- COMPLIANCE -->
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#10003;</span>
+            Sprawdzanie zgodności
+            <span class="feature-tag tag-core">MÓJ PRĄD 6.0</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Weryfikacja wymogów programu Mój Prąd 6.0.</strong>
+          <p style="margin-top:0.5rem"><strong>Wymagania sprawdzane:</strong></p>
+          <table class="param-table">
+            <tr><th>Wymaganie</th><th>Warunek</th></tr>
+            <tr><td>Moc PV</td><td>&#8804; 20 kWp</td></tr>
+            <tr><td>Pojemność BESS</td><td>&#8805; 2 kWh i &#8805; 1.5 × moc PV</td></tr>
+            <tr><td>Koszt BESS</td><td>&#8804; 6 000 PLN/kWh</td></tr>
+            <tr><td>Net-billing</td><td>Aktywne rozliczenie</td></tr>
+          </table>
+
+          <p style="margin-top:0.5rem"><strong>Dane wejściowe:</strong></p>
+          <ul>
+            <li>Moc szczytowa PV [kWp]</li>
+            <li>Pojemność magazynu energii [kWh]</li>
+            <li>Całkowity koszt magazynu [PLN]</li>
+            <li>Czy net-billing jest aktywny</li>
+          </ul>
+
+          <p style="margin-top:0.5rem"><strong>Maksymalne dotacje w programie:</strong></p>
+          <table class="param-table">
+            <tr><th>Komponent</th><th>Kwota</th></tr>
+            <tr><td>Instalacja PV</td><td>do 6 000 PLN</td></tr>
+            <tr><td>Magazyn energii</td><td>do 16 000 PLN</td></tr>
+            <tr><td>HEMS/EMS</td><td>do 3 000 PLN</td></tr>
+            <tr><td>Ładowarka EV</td><td>do 5 000 PLN</td></tr>
+            <tr><td>Pompa ciepła CWU</td><td>do 4 400 PLN</td></tr>
+            <tr><td>Pompa ciepła CO+CWU</td><td>do 28 500 PLN</td></tr>
+          </table>
+
+          <p style="margin-top:0.5rem">Wynik: <strong style="color:var(--accent)">ZGODNY</strong> lub <strong style="color:var(--red)">NIEZGODNY</strong> z listą spełnionych i niespełnionych wymagań.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- PROTOCOLS -->
+    <p class="section-label" id="protokoly">// protokoły odbioru</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128196;</span>
+            Kreator protokołu (5 kroków)
+            <span class="feature-tag tag-pro">PN-EN 62446-1</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Generator protokołu odbioru instalacji PV zgodnie z PN-EN 62446-1.</strong>
+
+          <div class="workflow">
+            <div class="workflow-step">
+              <div class="workflow-num">1</div>
+              <div class="workflow-text"><strong>Dane ogólne</strong> — dane inwestora (imię, adres, telefon), dane wykonawcy (imię, nr SEP), adres instalacji, data montażu</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">2</div>
+              <div class="workflow-text"><strong>Specyfikacja systemu</strong> — model i moc modułów PV, numery seryjne, falownik (model, S/N, moc), magazyn energii (opcja)</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">3</div>
+              <div class="workflow-text"><strong>Pomiary elektryczne</strong> — napięcie Voc i prąd Isc stringu, wynik testu RCD (zaliczony / niezaliczony)</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">4</div>
+              <div class="workflow-text"><strong>Lista kontrolna</strong> — 8 punktów do odhaczenia: montaż mechaniczny, trasa kabli DC, podłączenia AC, konfiguracja falownika, uziemienie, zabezpieczenia DC/AC, licznik</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">5</div>
+              <div class="workflow-text"><strong>Zdjęcia i podpisy</strong> — dokumentacja fotograficzna (aparat / galeria), podpis cyfrowy instalatora i inwestora</div>
+            </div>
+          </div>
+
+          <div class="note">PDF generowany jest lokalnie w &lt; 3 sekundy. Plik pozostaje na urządzeniu — nie jest wysyłany do chmury.</div>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128451;</span>
+            Archiwum protokołów
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <ul>
+            <li>Lista wszystkich protokołów posortowana od najnowszego</li>
+            <li>Podgląd: inwestor, adres, data, status (Wersja robocza / Ukończony)</li>
+            <li>Otwórz i udostępnij PDF</li>
+            <li>Usuń protokół (przytrzymaj)</li>
+            <li>Synchronizacja z chmurą (dla zalogowanych użytkowników)</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- PROJECTS -->
+    <p class="section-label" id="projekty">// zarządzanie projektami</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128188;</span>
+            Projekty (mini CRM)
+            <span class="feature-tag tag-pro">PRO</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Zarządzanie projektami od zapytania klienta do zamknięcia.</strong>
+
+          <p style="margin-top:0.5rem"><strong>Statusy projektu:</strong></p>
+          <table class="param-table">
+            <tr><th>Status</th><th>Opis</th></tr>
+            <tr><td>Zapytanie</td><td>Nowy kontakt od klienta</td></tr>
+            <tr><td>Oferta</td><td>Przygotowanie oferty</td></tr>
+            <tr><td>Montaż</td><td>W trakcie instalacji</td></tr>
+            <tr><td>Odbiór</td><td>Protokół i uruchomienie</td></tr>
+            <tr><td>Dokumentacja</td><td>Kompletowanie dokumentów</td></tr>
+            <tr><td>Zamknięty</td><td>Projekt zakończony</td></tr>
+          </table>
+
+          <p style="margin-top:0.5rem"><strong>Dane projektu:</strong></p>
+          <ul>
+            <li>Dane klienta: imię, telefon, email</li>
+            <li>Status projektu z menu rozwijnego</li>
+            <li>Termin instalacji (kalendarz + czas)</li>
+            <li>Notatki tekstowe</li>
+            <li>Powiązanie z obliczeniami PVGIS</li>
+          </ul>
+          <div class="note">Projekty z ustawionym terminem instalacji pojawiają się automatycznie w kalendarzu na dashboardzie.</div>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128197;</span>
+            Kalendarz instalacji
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <ul>
+            <li>Widok miesięczny z wyróżnionymi dniami instalacji</li>
+            <li>Kliknij dzień aby zobaczyć zaplanowane projekty</li>
+            <li>Dostępny z dashboardu i z zakładki "Więcej"</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128203;</span>
+            Dokumenty i historia zmian
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Dokumenty:</strong>
+          <ul>
+            <li>Organizacja wg typu: Protokoły, Zdjęcia, Faktury, Inne</li>
+            <li>Filtrowanie chipami</li>
+            <li>Otwieranie plików systemowym podglądem</li>
+          </ul>
+          <strong style="margin-top:0.5rem;display:block">Historia zmian (audit log):</strong>
+          <ul>
+            <li>Chronologiczny rejestr wszystkich modyfikacji</li>
+            <li>Śledzenie zmian w projektach, protokołach, obliczeniach</li>
+            <li>Synchronizacja z Firestore dla zalogowanych</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SETTINGS -->
+    <p class="section-label" id="ustawienia">// ustawienia i konto</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#9881;</span>
+            Ustawienia
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Profil firmy:</strong>
+          <ul>
+            <li>Nazwa firmy, NIP, numer certyfikatu SEP</li>
+            <li>Dane wykorzystywane w generowanych protokołach</li>
+          </ul>
+
+          <strong style="margin-top:0.5rem;display:block">Motyw aplikacji:</strong>
+          <ul>
+            <li>Systemowy (domyślny — podąża za ustawieniami urządzenia)</li>
+            <li>Jasny</li>
+            <li>Ciemny</li>
+          </ul>
+
+          <strong style="margin-top:0.5rem;display:block">Eksport danych (RODO):</strong>
+          <ul>
+            <li>Eksport danych klientów do pliku CSV</li>
+            <li>Zgodne z wymogami GDPR/RODO</li>
+          </ul>
+
+          <strong style="margin-top:0.5rem;display:block">Zarządzanie kontem:</strong>
+          <ul>
+            <li>Wylogowanie</li>
+            <li>Usunięcie konta — trwałe usunięcie wszystkich danych (Firebase + lokalne)</li>
+          </ul>
+          <div class="note warn">Usunięcie konta jest nieodwracalne. Wszystkie dane w chmurze i na urządzeniu zostaną usunięte.</div>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128274;</span>
+            Synchronizacja i dane
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Tryb offline-first:</strong>
+          <p>Wszystkie dane zapisywane są lokalnie w zaszyfrowanej bazie (Room + SQLCipher). Dla zalogowanych użytkowników dane synchronizują się automatycznie z chmurą Firebase.</p>
+
+          <table class="param-table">
+            <tr><th>Tryb</th><th>Lokalnie</th><th>Chmura</th></tr>
+            <tr><td>Email / Google</td><td>&#10003;</td><td>&#10003;</td></tr>
+            <tr><td>Anonimowy</td><td>&#10003;</td><td>&#10007;</td></tr>
+          </table>
+
+          <div class="note">Protokoły PDF przechowywane są wyłącznie na urządzeniu — nie są wysyłane do chmury.</div>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#11088;</span>
+            Subskrypcja i trial
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Model dostępu:</strong>
+          <ul>
+            <li><strong>Trial 7 dni</strong> — aktywowany automatycznie po pierwszym zalogowaniu. Pełny dostęp do wszystkich funkcji.</li>
+            <li><strong>Subskrypcja 9,99 PLN/tydzień</strong> — po zakończeniu triala. Rozliczana przez Google Play.</li>
+          </ul>
+
+          <strong style="margin-top:0.5rem;display:block">Co obejmuje pełny dostęp:</strong>
+          <ul>
+            <li>Nieograniczone projekty i protokoły</li>
+            <li>Generowanie PDF</li>
+            <li>Wszystkie kalkulatory</li>
+            <li>Synchronizacja z chmurą</li>
+            <li>Tryb offline</li>
+          </ul>
+
+          <strong style="margin-top:0.5rem;display:block">Przywracanie zakupu:</strong>
+          <p>Przy reinstalacji aplikacja automatycznie sprawdza aktywne subskrypcje w Google Play i przywraca dostęp.</p>
+
+          <strong style="margin-top:0.5rem;display:block">Zarządzanie subskrypcją:</strong>
+          <p>Anulowanie, zmiana metody płatności — przez Google Play Store &gt; Subskrypcje.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- WORKFLOWS -->
+    <p class="section-label">// typowe scenariusze użycia</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">A</span>
+            Nowy projekt od zapytania do odbioru
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <div class="workflow">
+            <div class="workflow-step">
+              <div class="workflow-num">1</div>
+              <div class="workflow-text">Pulpit &gt; <strong>Nowy projekt</strong> &gt; wpisz dane klienta, ustaw status "Zapytanie"</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">2</div>
+              <div class="workflow-text">Kalkulatory &gt; <strong>PVGIS</strong> &gt; oblicz uzysk, zapisz do projektu</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">3</div>
+              <div class="workflow-text">Kalkulatory &gt; <strong>Elektryczny</strong> &gt; dobierz kable i zabezpieczenia</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">4</div>
+              <div class="workflow-text">Kalkulatory &gt; <strong>Zgodność</strong> &gt; sprawdź wymagania Mój Prąd 6.0</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">5</div>
+              <div class="workflow-text">Zmień status projektu na "Montaż", ustaw <strong>termin instalacji</strong></div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">6</div>
+              <div class="workflow-text">Na miejscu: Protokoły &gt; <strong>Nowy protokół</strong> &gt; 5 kroków &gt; podpisy &gt; PDF</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">7</div>
+              <div class="workflow-text">Zamknij projekt — status "Zamknięty"</div>
+            </div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">B</span>
+            Szybki protokół w terenie
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <div class="workflow">
+            <div class="workflow-step">
+              <div class="workflow-num">1</div>
+              <div class="workflow-text">Otwórz aplikację (działa <strong>offline</strong>)</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">2</div>
+              <div class="workflow-text">Protokoły &gt; <strong>Nowy protokół</strong></div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">3</div>
+              <div class="workflow-text">Wypełnij 5 kroków, zrób zdjęcia, zbierz podpisy</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">4</div>
+              <div class="workflow-text"><strong>PDF wygenerowany</strong> — udostępnij emailem bezpośrednio z telefonu</div>
+            </div>
+          </div>
+          <div class="note">Cały proces zajmuje kilka minut. PDF generowany jest na urządzeniu bez połączenia z internetem.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FAQ -->
+    <p class="section-label" id="faq">// FAQ</p>
+
+    <div class="features">
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Czy aplikacja działa offline?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          Tak. Wszystkie kalkulatory, protokoły i projekty działają w pełni offline. Dane zapisywane są w zaszyfrowanej lokalnej bazie danych. Synchronizacja z chmurą następuje automatycznie po połączeniu z internetem (dla zalogowanych użytkowników).
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Czy mogę używać bez konta?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          Tak — tryb demo ("Pomiń logowanie") pozwala korzystać z kalkulatorów i przeglądać interfejs. Aby zapisywać projekty, generować protokoły PDF i synchronizować dane, wymagane jest konto (email lub Google).
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Co się stanie po zakończeniu triala?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          Po 7 dniach triala aplikacja wyświetli ekran subskrypcji. Dotychczasowe dane nie zostaną usunięte. Aby kontynuować korzystanie z pełnych funkcji, wymagana jest subskrypcja 9,99 PLN/tydzień. Zarządzanie subskrypcją odbywa się przez Google Play Store.
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Jak usunąć swoje dane (RODO)?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Eksport danych:</strong> Więcej &gt; Ustawienia &gt; Eksport danych (RODO) &gt; plik CSV z danymi klientów.
+          <br><br>
+          <strong>Usunięcie konta:</strong> Więcej &gt; Ustawienia &gt; Usuń konto. Wszystkie dane w chmurze i na urządzeniu zostaną trwale usunięte. Operacja jest nieodwracalna.
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Skąd pochodzą dane PVGIS?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          Dane o nasłonecznieniu i uzysku energii pobierane są z bazy <strong>PVGIS</strong> (Photovoltaic Geographical Information System) prowadzonej przez Joint Research Centre Komisji Europejskiej. Baza zawiera dane satelitarne i meteorologiczne z wieloletnich pomiarów.
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Na jakich normach oparte są obliczenia?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <ul>
+            <li><strong>IEC 60364-7-712</strong> — instalacje PV, dobór kabli i zabezpieczeń</li>
+            <li><strong>PN-EN 62446-1</strong> — protokół odbioru instalacji PV</li>
+            <li><strong>PN-EN 62305</strong> — ochrona odgromowa (SPD)</li>
+            <li><strong>Mój Prąd 6.0</strong> — regulamin programu dotacyjnego NFOŚiGW</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">Jak skontaktować się z supportem?</div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          Email: <strong>support@echosignal-dev.com</strong>
+          <br><br>
+          Zgłaszanie błędów i sugestii: <a href="https://github.com/echo-signal" target="_blank" rel="noopener" style="color:var(--accent)">github.com/echo-signal</a>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LINKS -->
+    <p class="section-label">// linki</p>
+    <div class="links">
+      <a href="https://echo-signal.github.io/instalatorpvprodocs/privacy-policy.html" target="_blank" rel="noopener">polityka prywatności</a>
+      <a href="https://echosignal-dev.com" target="_blank" rel="noopener">echo signal</a>
+      <a href="https://github.com/echo-signal" target="_blank" rel="noopener">github</a>
+      <a href="mailto:hello@echosignal-dev.com">kontakt</a>
+    </div>
+
+    <div class="status">
+      <div class="status-dot"></div>
+      <div class="status-text">wersja: <span>1.0</span> · Android</div>
+    </div>
+
+    <footer>
+      &copy; 2026 echo signal &middot;
+      <a href="https://echo-signal.github.io/instalatorpvprodocs/privacy-policy.html" target="_blank" rel="noopener">prywatność</a>
+    </footer>
+  </div>
+
+  <a href="#top" class="back-top" id="backTop">&uarr;</a>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+    });
+  </script>
+</body>
+</html>
