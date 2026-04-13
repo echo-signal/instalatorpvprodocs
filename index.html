@@ -503,6 +503,7 @@
       <a href="#protokoly">Protokoły</a>
       <a href="#projekty">Projekty</a>
       <a href="#ustawienia">Ustawienia</a>
+      <a href="#jezyki">Języki</a>
       <a href="#faq">FAQ</a>
     </nav>
 
@@ -511,14 +512,14 @@
     <!-- OVERVIEW -->
     <p class="section-label">// o aplikacji</p>
     <p class="description">
-      InstalatorPV Pro to kompleksowe narzędzie dla instalatorów fotowoltaiki. Kalkulatory zgodne z normami IEC, generator protokołów wg PN-EN 62446-1, zarządzanie projektami i klientami. Działa offline, synchronizuje dane z chmurą.
+      InstalatorPV Pro to kompleksowe narzędzie dla instalatorów fotowoltaiki: od kalkulacji i oferty, przez realizację i protokoły odbioru, po serwis i dokumentację klienta. Aplikacja działa offline i automatycznie synchronizuje dane po zalogowaniu.
     </p>
 
     <div class="quick-ref">
       <div class="ref-card">
         <div class="ref-card-title">Platforma</div>
-        <div class="ref-card-value">Android</div>
-        <div class="ref-card-desc">Android 11.0+ (API 30)</div>
+        <div class="ref-card-value">Android + iOS</div>
+        <div class="ref-card-desc">Jedna aplikacja dla pracy mobilnej</div>
       </div>
       <div class="ref-card">
         <div class="ref-card-title">Tryb offline</div>
@@ -526,14 +527,14 @@
         <div class="ref-card-desc">Kalkulatory i protokoły bez internetu</div>
       </div>
       <div class="ref-card">
-        <div class="ref-card-title">Trial</div>
-        <div class="ref-card-value">7 dni</div>
-        <div class="ref-card-desc">Pełny dostęp bez opłat</div>
+        <div class="ref-card-title">Rynki</div>
+        <div class="ref-card-value">PL / DE / ES / US / JP</div>
+        <div class="ref-card-desc">Reguły i dokumenty dopasowane do rynku</div>
       </div>
       <div class="ref-card">
-        <div class="ref-card-title">Subskrypcja</div>
-        <div class="ref-card-value">9,99 PLN/tydz.</div>
-        <div class="ref-card-desc">Google Play Billing</div>
+        <div class="ref-card-title">Zakres</div>
+        <div class="ref-card-value">End-to-end</div>
+        <div class="ref-card-desc">Projekt, kalkulacje, protokół, serwis</div>
       </div>
     </div>
 
@@ -597,10 +598,10 @@
           <table class="param-table">
             <tr><th>Zakładka</th><th>Funkcja</th></tr>
             <tr><td>Pulpit</td><td>Dashboard, statystyki, kalendarz</td></tr>
-            <tr><td>Kalkulatory</td><td>PVGIS, elektryczny, zgodność</td></tr>
+            <tr><td>Kalkulatory</td><td>PVGIS, elektryczny, zgodność, BESS</td></tr>
             <tr><td>Protokoły</td><td>Nowy protokół, archiwum</td></tr>
             <tr><td>Projekty</td><td>Zarządzanie klientami i projektami</td></tr>
-            <tr><td>Więcej</td><td>Kalendarz, dokumenty, historia zmian, ustawienia</td></tr>
+            <tr><td>Więcej</td><td>Kalendarz, przeglądy, dokumenty, historia zmian, ustawienia</td></tr>
           </table>
         </div></div>
       </div>
@@ -741,6 +742,26 @@
           <p style="margin-top:0.5rem">Wynik: <strong style="color:var(--accent)">ZGODNY</strong> lub <strong style="color:var(--red)">NIEZGODNY</strong> z listą spełnionych i niespełnionych wymagań.</p>
         </div></div>
       </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128267;</span>
+            Kalkulator BESS
+            <span class="feature-tag tag-calc">MAGAZYN ENERGII</span>
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Dobór magazynu energii do profilu zużycia i celów klienta.</strong>
+          <ul>
+            <li>Szacowanie zalecanej pojemności magazynu</li>
+            <li>Porównanie wariantów autokonsumpcji</li>
+            <li>Wpływ magazynu na opłacalność i stabilność zasilania</li>
+            <li>Zapis wyników bezpośrednio do projektu</li>
+          </ul>
+        </div></div>
+      </div>
     </div>
 
     <hr class="divider">
@@ -803,6 +824,24 @@
             <li>Otwórz i udostępnij PDF</li>
             <li>Usuń protokół (przytrzymaj)</li>
             <li>Synchronizacja z chmurą (dla zalogowanych użytkowników)</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#128295;</span>
+            Przeglądy serwisowe
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <ul>
+            <li>Planowanie wizyt serwisowych po zakończeniu montażu</li>
+            <li>Osobne daty przeglądu bieżącego i kolejnego</li>
+            <li>Przypomnienia o zbliżających się przeglądach</li>
+            <li>Powiązanie przeglądów z konkretnym projektem klienta</li>
           </ul>
         </div></div>
       </div>
@@ -887,6 +926,26 @@
             <li>Śledzenie zmian w projektach, protokołach, obliczeniach</li>
             <li>Synchronizacja z Firestore dla zalogowanych</li>
           </ul>
+        </div></div>
+      </div>
+
+      <div class="feature-card" onclick="this.classList.toggle('open')">
+        <div class="feature-header">
+          <div class="feature-title">
+            <span class="feature-icon">&#127760;</span>
+            Tryb wielorynkowy
+          </div>
+          <span class="feature-toggle">&#9654;</span>
+        </div>
+        <div class="feature-body"><div class="feature-body-inner">
+          <strong>Po wyborze rynku aplikacja dostosowuje treści do lokalnych realiów.</strong>
+          <ul>
+            <li>Waluta i nazewnictwo formularzy</li>
+            <li>Wymagania formalne i checklisty</li>
+            <li>Słownictwo i układ dokumentów PDF</li>
+            <li>Regiony lokalne (np. landy, stany, wspólnoty)</li>
+          </ul>
+          <div class="note">Dostępne rynki: Polska, Niemcy, Hiszpania, USA, Japonia.</div>
         </div></div>
       </div>
     </div>
@@ -1065,6 +1124,53 @@
             </div>
           </div>
           <div class="note">Cały proces zajmuje kilka minut. PDF generowany jest na urządzeniu bez połączenia z internetem.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LANGUAGES -->
+    <p class="section-label" id="jezyki">// wersje językowe</p>
+    <div class="features">
+      <div class="feature-card open">
+        <div class="feature-header">
+          <div class="feature-title"><span class="feature-icon">PL</span> Polski</div>
+        </div>
+        <div class="feature-body" style="max-height:400px;margin-top:.75rem"><div class="feature-body-inner">
+          Przewodnik w języku polskim obejmuje pełny proces: kalkulacje, projekty, protokoły, serwis i dokumentację dla klienta.
+        </div></div>
+      </div>
+      <div class="feature-card open">
+        <div class="feature-header">
+          <div class="feature-title"><span class="feature-icon">EN</span> English</div>
+        </div>
+        <div class="feature-body" style="max-height:400px;margin-top:.75rem"><div class="feature-body-inner">
+          User guide in English: from project setup and calculations to handover protocol, customer documents, and service workflow.
+        </div></div>
+      </div>
+      <div class="feature-card open">
+        <div class="feature-header">
+          <div class="feature-title"><span class="feature-icon">DE</span> Deutsch</div>
+        </div>
+        <div class="feature-body" style="max-height:400px;margin-top:.75rem"><div class="feature-body-inner">
+          Benutzerleitfaden auf Deutsch: Projektverwaltung, Berechnungen, Abnahmeprotokoll, Serviceplanung und Dokumentenübergabe.
+        </div></div>
+      </div>
+      <div class="feature-card open">
+        <div class="feature-header">
+          <div class="feature-title"><span class="feature-icon">ES</span> Español</div>
+        </div>
+        <div class="feature-body" style="max-height:400px;margin-top:.75rem"><div class="feature-body-inner">
+          Guía en español: gestión completa del trabajo de instalación, cálculos, protocolo de entrega y seguimiento de servicio.
+        </div></div>
+      </div>
+      <div class="feature-card open">
+        <div class="feature-header">
+          <div class="feature-title"><span class="feature-icon">JP</span> 日本語</div>
+        </div>
+        <div class="feature-body" style="max-height:400px;margin-top:.75rem"><div class="feature-body-inner">
+          日本語ガイド：案件作成、計算、引き渡しプロトコル、書類共有、定期点検まで一連の流れをサポートします。
         </div></div>
       </div>
     </div>
